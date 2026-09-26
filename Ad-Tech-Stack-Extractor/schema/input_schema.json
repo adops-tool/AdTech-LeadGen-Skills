@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Ad-Tech-Stack-Extractor Input",
+  "description": "Raw HTML source, DOM fragment, JavaScript snippet, or HTTP response headers to scan for ad tech technology fingerprints.",
+  "type": "object",
+  "required": ["source"],
+  "properties": {
+    "source": {
+      "type": "string",
+      "description": "Raw input string. May be: full HTML page source, a <head> or <body> fragment, inline or external JavaScript blocks, HTTP response header text, or any combination. Passed verbatim — no preprocessing required.",
+      "minLength": 1,
+      "examples": [
+        "<script async src=\"https://securepubads.g.doubleclick.net/tag/js/gpt.js\"></script>\n<script>var pbjs=pbjs||{};pbjs.que=pbjs.que||[];</script>",
+        "<script>!function(a9,a,p,s,t,A,g){if(a[a9])return;apstag.init({pubID:'xxx'})}</script>\n<script src=\"//cdn.taboola.com/libtrc/loader.js\"></script>",
+        "<script async src=\"https://www.googletagmanager.com/gtag/js?id=G-XXX\"></script>"
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "notes": [
+    "The input may be passed as a raw string prompt prefix (e.g. 'Extract from: <html>...') — the skill handles both structured JSON and freeform prompt formats.",
+    "Headers may be passed as raw text blocks (e.g. 'Set-Cookie: ...\\nX-Powered-By: ...').",
+    "Minified or obfuscated JavaScript is accepted; pattern matching operates on raw string content."
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "skill_name": "Bot-Command-Router",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Route: \"Hey bot, what is the status of the lead example.com?\"",
+      "expected_output": "see assertions",
+      "files": [],
+      "assertions": [
+        "intent == get_lead_status",
+        "extracted_parameters.domain == example.com",
+        "confidence > 0.8"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Route: \"Run a check on publisher-news.net ads file.\"",
+      "expected_output": "see assertions",
+      "files": [],
+      "assertions": [
+        "intent == run_ads_txt_check",
+        "extracted_parameters.domain == publisher-news.net"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Route: \"Give me the stats.\"",
+      "expected_output": "see assertions",
+      "files": [],
+      "assertions": [
+        "intent == get_daily_summary",
+        "extracted_parameters.domain == null"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Route: \"Tell me a joke.\"",
+      "expected_output": "see assertions",
+      "files": [],
+      "assertions": [
+        "intent == unknown_command"
+      ]
+    }
+  ]
+}

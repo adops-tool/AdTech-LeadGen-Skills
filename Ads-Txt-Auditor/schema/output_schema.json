@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Ads-Txt-Auditor Output",
+  "description": "JSON array of compliance findings from the ads.txt audit. Returns an empty array if the file is fully compliant.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["line_number", "raw_line_content", "error_type", "severity", "suggested_fix"],
+    "properties": {
+      "line_number": {
+        "oneOf": [
+          { "type": "integer", "minimum": 1 },
+          { "type": "null" }
+        ],
+        "description": "1-indexed line number of the offending line in the original file. Null for file-level findings (e.g., GAB entry entirely absent)."
+      },
+      "raw_line_content": {
+        "type": "string",
+        "description": "The exact original line content from the file, unmodified. Empty string for file-level findings."
+      },
+      "error_type": {
+        "type": "string",
+        "enum": ["Syntax_Error", "Duplicate_Entry", "Missing_Relationship", "GAB_Entry_Error"],
+        "description": "Classification of the compliance violation.\n- Syntax_Error: Malformed line (wrong field count, invalid domain, bad relationship keyword).\n- Duplicate_Entry: Exact duplicate of a previously seen entry.\n- Missing_Relationship: Third field is blank or absent.\n- GAB_Entry_Error: Platform's own authorized buyer entry is missing or incorrect."
+      },
+      "severity": {
+        "type": "string",
+        "enum": ["critical", "warning"],
+        "description": "Impact level of the finding.\n- critical: Entry is unparseable or definitively broken for buyers.\n- warning: Entry may be parsed but violates spec guidance or best practice.\nMapping: Syntax_Error → critical, Missing_Relationship → critical, Duplicate_Entry → warning, GAB_Entry_Error → warning (always)."
+      },
+      "suggested_fix": {
+        "type": "string",
+        "minLength": 1,
+        "description": "Concrete, actionable correction. Must be a corrected line string or a specific remediation instruction. Never vague."
+      }
+    },
+    "additionalProperties": false
+  },
+  "examples": [
+    [],
+    [
+      {
+        "line_number": 2,
+        "raw_line_content": "google.com, pub-12345",
+        "error_type": "Syntax_Error",
+        "severity": "critical",
+        "suggested_fix": "Add required relationship field: google.com, pub-12345, DIRECT, <cert_id>"
+      }
+    ],
+    [
+      {
+        "line_number": null,
+        "raw_line_content": "",
+        "error_type": "GAB_Entry_Error",
+        "severity": "warning",
+        "suggested_fix": "Add the platform's own DIRECT entry: platform.com, <pub_id>, DIRECT, <cert_id>"
+      }
+    ]
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AdLayoutOptimizerOutput",
+  "description": "Viewability diagnostic and optimization recommendations for a publisher ad layout.",
+  "type": "object",
+  "required": ["viewability_score_estimate", "layout_violations", "optimization_recommendations"],
+  "additionalProperties": false,
+  "properties": {
+    "viewability_score_estimate": {
+      "type": "string",
+      "enum": ["Low", "Medium", "High"],
+      "description": "Estimated viewability tier. Low = Better Ads violation or density breach. Medium = no hard violations but room for improvement. High = clean layout with lazy loading and good placement."
+    },
+    "layout_violations": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "List of detected violations and warnings. Better Ads hard violations are prefixed with 'Better Ads violation:'. Soft warnings are prefixed with 'Warning:'."
+    },
+    "optimization_recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["target_slot", "suggested_action", "expected_viewability_uplift"],
+        "additionalProperties": false,
+        "properties": {
+          "target_slot": {
+            "type": "string",
+            "description": "Slot identifier in '{position}-{size}' format (e.g. 'sidebar-300x600')."
+          },
+          "suggested_action": {
+            "type": "string",
+            "description": "Specific technical action to improve viewability or fix violation for this slot."
+          },
+          "expected_viewability_uplift": {
+            "type": "string",
+            "enum": ["None", "Low (+5-10%)", "Medium (+10-20%)", "High (+20-40%)"],
+            "description": "Estimated viewability improvement from applying the suggested action."
+          }
+        }
+      },
+      "description": "Per-slot optimization recommendations. One entry per slot in current_ad_slots."
+    }
+  },
+  "examples": [
+    {
+      "viewability_score_estimate": "Low",
+      "layout_violations": [
+        "Better Ads violation: 320x250 above-the-fold on mobile",
+        "Warning: single ad slot — revenue yield suboptimal",
+        "Warning: no lazy loading enabled on any slot — impacts Core Web Vitals"
+      ],
+      "optimization_recommendations": [
+        {
+          "target_slot": "top-320x250",
+          "suggested_action": "Move 320x250 to below-fold or replace with 320x50 leaderboard at top to comply with Better Ads Standards",
+          "expected_viewability_uplift": "High (+20-40%)"
+        }
+      ]
+    }
+  ]
+}

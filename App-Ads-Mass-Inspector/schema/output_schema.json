@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "App-Ads-Mass-Inspector Output",
+  "description": "Array of compliance results, one per input record, in the same order.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["developer_url", "is_completely_valid", "gab_verified", "errors_found"],
+    "additionalProperties": false,
+    "properties": {
+      "developer_url": {
+        "type": "string",
+        "description": "Verbatim copy of developer_url from the corresponding input record."
+      },
+      "is_completely_valid": {
+        "type": "boolean",
+        "description": "True only when errors_found is empty AND gab_verified is true."
+      },
+      "gab_verified": {
+        "type": "boolean",
+        "description": "True when a syntactically valid google.com DIRECT line with a non-empty publisher_id exists."
+      },
+      "errors_found": {
+        "type": "array",
+        "description": "List of human-readable compliance error strings. Empty array when no errors.",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

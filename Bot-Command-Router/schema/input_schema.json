@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BotCommandRouterInput",
+  "description": "Raw chat message from a Slack or Telegram user to be routed to an API intent.",
+  "type": "string",
+  "minLength": 1,
+  "examples": [
+    "Hey bot, what is the status of the lead example.com?",
+    "Run a check on publisher-news.net ads file.",
+    "Give me the stats.",
+    "Tell me a joke."
+  ]
+}

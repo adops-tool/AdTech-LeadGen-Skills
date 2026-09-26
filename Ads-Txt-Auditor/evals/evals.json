@@ -1,0 +1,46 @@
+{
+  "skill_name": "Ads-Txt-Auditor",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Audit this ads.txt file and return a JSON array of compliance errors. Return [] if fully compliant.\n\ngoogle.com, pub-1234567890, DIRECT, f08c47fec0942fa0\nexample-platform.com, 99001, DIRECT, abc123def456",
+      "expected_output": "[]",
+      "files": [],
+      "assertions": [
+        "output == []"
+      ],
+      "notes": "Fully valid file: correct syntax, no duplicates, DIRECT entry present for platform. Expected output is empty array."
+    },
+    {
+      "id": 2,
+      "prompt": "Audit this ads.txt file and return a JSON array of compliance errors. Return [] if fully compliant.\n\ngoogle.com, pub-12345\nexample-platform.com, 9999, RESELLER",
+      "expected_output": "see assertions",
+      "files": [],
+      "assertions": [
+        "some item has error_type == Syntax_Error",
+        "some item has severity == critical"
+      ],
+      "notes": "Line 1 is missing the required relationship field (only 2 fields). Should produce at least one Syntax_Error with severity critical."
+    },
+    {
+      "id": 3,
+      "prompt": "Audit this ads.txt file and return a JSON array of compliance errors. The platform being audited is example-platform.com. Return [] if fully compliant.\n\nexample-platform.com, 99001, RESELLER, abc123def456",
+      "expected_output": "see assertions",
+      "files": [],
+      "assertions": [
+        "some item has error_type == GAB_Entry_Error"
+      ],
+      "notes": "Platform entry exists but uses RESELLER instead of DIRECT. Must flag as GAB_Entry_Error with severity warning."
+    },
+    {
+      "id": 4,
+      "prompt": "Audit this ads.txt file and return a JSON array of compliance errors. Return [] if fully compliant.\n\ngoogle.com, pub-111, DIRECT, f08c47fec0942fa0\ngoogle.com, pub-111, DIRECT, f08c47fec0942fa0",
+      "expected_output": "see assertions",
+      "files": [],
+      "assertions": [
+        "some item has error_type == Duplicate_Entry"
+      ],
+      "notes": "Line 2 is an exact duplicate of line 1. Must flag as Duplicate_Entry with severity warning."
+    }
+  ]
+}

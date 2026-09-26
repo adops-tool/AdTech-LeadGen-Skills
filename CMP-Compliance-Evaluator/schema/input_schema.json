@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CMP-Compliance-Evaluator Input",
+  "description": "Intercepted network requests and DOM HEAD fragment for compliance analysis.",
+  "type": "object",
+  "required": ["dom_head", "network_requests"],
+  "additionalProperties": false,
+  "properties": {
+    "dom_head": {
+      "type": "string",
+      "description": "Raw HTML content of the page <head> element, including all <script> tags."
+    },
+    "network_requests": {
+      "type": "array",
+      "description": "Array of intercepted network requests from the browser session.",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "required": ["url"],
+        "additionalProperties": false,
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Full URL of the intercepted request."
+          },
+          "geo": {
+            "type": "string",
+            "description": "Optional ISO 3166-1 alpha-2 country code or region tag indicating traffic origin (e.g. 'EU', 'US-CA', 'DE', 'FR'). Absence implies unknown jurisdiction."
+          },
+          "response_headers": {
+            "type": "object",
+            "description": "Optional map of HTTP response header names to values.",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AdLayoutOptimizerInput",
+  "description": "Page layout descriptor for ad viewability and Better Ads Standards analysis.",
+  "type": "object",
+  "required": ["device_type", "ad_density_percentage", "current_ad_slots"],
+  "additionalProperties": false,
+  "properties": {
+    "device_type": {
+      "type": "string",
+      "enum": ["mobile", "desktop"],
+      "description": "Target device form factor for layout evaluation."
+    },
+    "ad_density_percentage": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Percentage of total page height occupied by ad slots."
+    },
+    "current_ad_slots": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "required": ["position", "size", "is_lazy"],
+        "additionalProperties": false,
+        "properties": {
+          "position": {
+            "type": "string",
+            "description": "Slot placement descriptor. Known values: top, atf, above-fold, sidebar, mid, btf, footer, interstitial, sticky, overlay, popup. Unknown values are treated as btf."
+          },
+          "size": {
+            "type": "string",
+            "pattern": "^[0-9]+x[0-9]+$",
+            "description": "Ad unit size in WxH format (e.g. '320x250', '728x90', '300x600')."
+          },
+          "is_lazy": {
+            "type": "boolean",
+            "description": "Whether lazy loading is enabled for this slot."
+          }
+        }
+      },
+      "description": "Array of current ad slot descriptors on the page."
+    }
+  },
+  "examples": [
+    {
+      "device_type": "mobile",
+      "ad_density_percentage": 25,
+      "current_ad_slots": [
+        {"position": "top", "size": "320x250", "is_lazy": false}
+      ]
+    },
+    {
+      "device_type": "desktop",
+      "ad_density_percentage": 40,
+      "current_ad_slots": [
+        {"position": "atf", "size": "728x90", "is_lazy": false},
+        {"position": "mid", "size": "300x250", "is_lazy": false}
+      ]
+    }
+  ]
+}

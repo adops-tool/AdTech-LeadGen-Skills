@@ -1,0 +1,46 @@
+{
+  "skill_name": "cmp-compliance-evaluator",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Evaluate: {\"dom_head\":\"<script src=\\\"https://quantcast.mgr.consensu.org/cmp.js\\\"></script>\",\"network_requests\":[{\"url\":\"https://securepubads.g.doubleclick.net/gampad/ads?gdpr=1&gdpr_consent=CPxxxABCDEFGHIJKLMNOP\"}]}",
+      "expected_output": "JSON object with cmp_detected=true, detected_cmp_name='Quantcast', tcf_v2_compliant=true, risk_severity='Safe'",
+      "files": [],
+      "assertions": [
+        "cmp_detected == true",
+        "detected_cmp_name is 'Quantcast' or contains 'Quantcast'",
+        "tcf_v2_compliant == true",
+        "risk_severity == 'Safe'",
+        "technical_details mentions doubleclick.net or gdpr_consent",
+        "output is valid JSON with no surrounding prose"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Evaluate: {\"dom_head\":\"<script src=\\\"https://cdn.example.com/analytics.js\\\"></script>\",\"network_requests\":[{\"url\":\"https://securepubads.g.doubleclick.net/gampad/ads\",\"geo\":\"EU\"}]}",
+      "expected_output": "JSON object with cmp_detected=false, tcf_v2_compliant=false, risk_severity='Critical'",
+      "files": [],
+      "assertions": [
+        "cmp_detected == false",
+        "detected_cmp_name == null",
+        "tcf_v2_compliant == false",
+        "risk_severity == 'Critical'",
+        "technical_details mentions EU geo or GDPR or absence of CMP",
+        "output is valid JSON with no surrounding prose"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Evaluate: {\"dom_head\":\"<script src=\\\"https://cdn.custom-cmp.com/custom-cmp.js\\\"></script>\",\"network_requests\":[{\"url\":\"https://securepubads.g.doubleclick.net/gampad/ads?gdpr=1\"}]}",
+      "expected_output": "JSON object with cmp_detected=true, tcf_v2_compliant=false, risk_severity='Warning' or 'Critical', technical_details mentions consent string or TC string",
+      "files": [],
+      "assertions": [
+        "cmp_detected == true",
+        "tcf_v2_compliant == false",
+        "risk_severity == 'Warning' OR risk_severity == 'Critical'",
+        "technical_details contains 'consent string' OR technical_details contains 'TC string' OR technical_details contains 'gdpr_consent'",
+        "output is valid JSON with no surrounding prose"
+      ]
+    }
+  ]
+}

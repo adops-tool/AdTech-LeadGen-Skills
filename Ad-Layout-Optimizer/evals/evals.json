@@ -1,0 +1,35 @@
+{
+  "skill_name": "Ad-Layout-Optimizer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Optimize: {\"device_type\":\"mobile\",\"ad_density_percentage\":25,\"current_ad_slots\":[{\"position\":\"top\",\"size\":\"320x250\",\"is_lazy\":false}]}",
+      "expected_output": "see assertions",
+      "files": [],
+      "assertions": [
+        "layout_violations length > 0",
+        "optimization_recommendations length > 0",
+        "layout_violations contains Better Ads OR top OR above fold"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Optimize: {\"device_type\":\"desktop\",\"ad_density_percentage\":20,\"current_ad_slots\":[{\"position\":\"sidebar\",\"size\":\"300x600\",\"is_lazy\":false}]}",
+      "expected_output": "see assertions",
+      "files": [],
+      "assertions": [
+        "optimization_recommendations contains sticky OR suggested_action contains sticky"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Optimize: {\"device_type\":\"desktop\",\"ad_density_percentage\":40,\"current_ad_slots\":[{\"position\":\"atf\",\"size\":\"728x90\",\"is_lazy\":false},{\"position\":\"mid\",\"size\":\"300x250\",\"is_lazy\":false}]}",
+      "expected_output": "see assertions",
+      "files": [],
+      "assertions": [
+        "layout_violations contains density OR 30%",
+        "viewability_score_estimate == Low OR Medium"
+      ]
+    }
+  ]
+}

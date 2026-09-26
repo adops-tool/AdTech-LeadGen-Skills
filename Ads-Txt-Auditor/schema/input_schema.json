@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Ads-Txt-Auditor Input",
+  "description": "Raw string contents of an ads.txt file to be audited against IAB ads.txt spec v1.1.",
+  "type": "object",
+  "required": ["ads_txt_content"],
+  "properties": {
+    "ads_txt_content": {
+      "type": "string",
+      "description": "The full raw text of the ads.txt file. May include comment lines (starting with #), blank lines, variable declarations (SUBDOMAIN=, CONTACT=, INVENTORYPARTNERDOMAIN=), and data lines in the format: ad_system_domain, publisher_id, relationship[, certification_authority_id].",
+      "minLength": 1
+    },
+    "platform_domain": {
+      "type": "string",
+      "description": "Optional. The domain of the platform (SSP/exchange) whose GAB entry should be verified. If omitted, the auditor will attempt contextual inference from the file contents.",
+      "examples": ["pubmatic.com", "rubiconproject.com", "appnexus.com"]
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "ads_txt_content": "google.com, pub-1234567890, DIRECT, f08c47fec0942fa0\nrubiconproject.com, 17960, RESELLER, 0bfd66d529a55807",
+      "platform_domain": "google.com"
+    }
+  ]
+}

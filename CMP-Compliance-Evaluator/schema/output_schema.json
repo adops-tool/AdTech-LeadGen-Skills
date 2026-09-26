@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CMP-Compliance-Evaluator Output",
+  "description": "Structured compliance audit result from the CMP-Compliance-Evaluator skill.",
+  "type": "object",
+  "required": [
+    "cmp_detected",
+    "detected_cmp_name",
+    "tcf_v2_compliant",
+    "ccpa_compliant",
+    "risk_severity",
+    "technical_details"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "cmp_detected": {
+      "type": "boolean",
+      "description": "True if any recognised CMP script or TCF/USP API evidence is found in the DOM or network signals."
+    },
+    "detected_cmp_name": {
+      "type": ["string", "null"],
+      "description": "Vendor name of the detected CMP (e.g. 'OneTrust', 'Quantcast', 'Didomi'), or null if no CMP is detected or the vendor is unrecognised."
+    },
+    "tcf_v2_compliant": {
+      "type": "boolean",
+      "description": "True only when every ad-server request carrying gdpr=1 also carries a non-empty, structurally valid gdpr_consent TC string."
+    },
+    "ccpa_compliant": {
+      "type": "boolean",
+      "description": "True when us_privacy or __uspapi evidence is present for CA/US-scoped traffic, or when traffic is confirmed to be out of CA/US scope."
+    },
+    "risk_severity": {
+      "type": "string",
+      "enum": ["Safe", "Warning", "Critical"],
+      "description": "Aggregate risk level. Critical = likely regulatory violation. Warning = misconfiguration or incomplete signal. Safe = no evidence of violation."
+    },
+    "technical_details": {
+      "type": "string",
+      "description": "Pipe-separated diagnostic findings referencing specific URLs, parameter names, and consent string values (truncated to 20 chars)."
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "skill_name": "App-Ads-Mass-Inspector",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Inspect: [{\"developer_url\":\"dev1.com\",\"app_ads_content\":\"google.com, pub-1234567890123456, DIRECT, f08c47fec0942fa0\\nadcolony.com, 12345, DIRECT, xyz\"}]",
+      "expected_output": "JSON array with one object: developer_url=dev1.com, is_completely_valid=true, gab_verified=true, errors_found=[]",
+      "files": [],
+      "assertions": [
+        "result[0].developer_url == \"dev1.com\"",
+        "result[0].is_completely_valid == true",
+        "result[0].gab_verified == true",
+        "result[0].errors_found is an empty array"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Inspect: [{\"developer_url\":\"dev2.com\",\"app_ads_content\":\"google.com pub-123 DIRECT\"}]",
+      "expected_output": "JSON array with one object: developer_url=dev2.com, is_completely_valid=false, gab_verified=false, errors_found has at least one error about delimiter or missing comma and one about GAB missing",
+      "files": [],
+      "assertions": [
+        "result[0].developer_url == \"dev2.com\"",
+        "result[0].is_completely_valid == false",
+        "result[0].gab_verified == false",
+        "result[0].errors_found is a non-empty array (length > 0)",
+        "at least one error in errors_found mentions delimiter, comma, or syntax"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Inspect: [{\"developer_url\":\"dev3.com\",\"app_ads_content\":\"google.com, pub-789, RESELLER, abc\\nappnexus.com, pub-100, DIRECT\"}]",
+      "expected_output": "JSON array with one object: gab_verified=false because the only google.com entry has RESELLER relationship (no DIRECT google.com line exists). errors_found contains a message about GAB entry being invalid or relationship being RESELLER.",
+      "files": [],
+      "assertions": [
+        "result[0].developer_url == \"dev3.com\"",
+        "result[0].gab_verified == false",
+        "result[0].errors_found is a non-empty array (length > 0)",
+        "at least one error in errors_found mentions GAB or RESELLER or relationship"
+      ]
+    }
+  ]
+}

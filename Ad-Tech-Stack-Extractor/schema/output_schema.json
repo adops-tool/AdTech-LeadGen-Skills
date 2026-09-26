@@ -1,0 +1,85 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Ad-Tech-Stack-Extractor Output",
+  "description": "Categorized ad tech stack detected from the input. Raw JSON only — no markdown fences, no surrounding text. Arrays contain only technologies with confirmed signal presence in the input.",
+  "type": "object",
+  "required": [
+    "ad_server",
+    "header_bidding_wrappers",
+    "ssp_adapters_detected",
+    "content_recommendation",
+    "confidence_score"
+  ],
+  "properties": {
+    "ad_server": {
+      "type": "array",
+      "description": "Ad serving platforms detected. Examples: Google Ad Manager, Google AdSense, Xandr, Freewheel. Empty array when no ad server signals are present.",
+      "items": {
+        "type": "string",
+        "description": "Canonical technology name from the Signal Detection Reference Table."
+      },
+      "uniqueItems": true,
+      "examples": [
+        ["Google Ad Manager"],
+        ["Google Ad Manager", "Google AdSense"],
+        []
+      ]
+    },
+    "header_bidding_wrappers": {
+      "type": "array",
+      "description": "Header bidding wrapper libraries detected. Examples: Prebid.js, Amazon TAM / UAM, Index Exchange Wrapper. Empty array when no wrapper signals are present.",
+      "items": {
+        "type": "string",
+        "description": "Canonical technology name from the Signal Detection Reference Table."
+      },
+      "uniqueItems": true,
+      "examples": [
+        ["Prebid.js"],
+        ["Prebid.js", "Amazon TAM / UAM"],
+        []
+      ]
+    },
+    "ssp_adapters_detected": {
+      "type": "array",
+      "description": "Supply-side platform adapters or bidder tags detected. Examples: Amazon / APS, Rubicon / Magnite, OpenX, Index Exchange, PubMatic, Criteo. Empty array when no SSP signals are present.",
+      "items": {
+        "type": "string",
+        "description": "Canonical technology name from the Signal Detection Reference Table."
+      },
+      "uniqueItems": true,
+      "examples": [
+        ["Amazon / APS", "Rubicon / Magnite"],
+        []
+      ]
+    },
+    "content_recommendation": {
+      "type": "array",
+      "description": "Content recommendation or native advertising widgets detected. Examples: Taboola, Outbrain, Revcontent. Empty array when no content recommendation signals are present.",
+      "items": {
+        "type": "string",
+        "description": "Canonical technology name from the Signal Detection Reference Table."
+      },
+      "uniqueItems": true,
+      "examples": [
+        ["Taboola"],
+        ["Taboola", "Outbrain"],
+        []
+      ]
+    },
+    "confidence_score": {
+      "type": "integer",
+      "description": "Signal quality score 0–100. 0: nothing detected. 5–15: only analytics/tag managers found (no ad tech). 30–50: weak signals only (variable declarations). 60–75: 1–2 strong signals (CDN URLs or init calls). 76–90: 3+ strong signals. 91–100: full stack detected with strong signals across all categories.",
+      "minimum": 0,
+      "maximum": 100
+    }
+  },
+  "additionalProperties": false,
+  "constraints": {
+    "output_format": "Raw JSON only. No markdown code fences. No surrounding text.",
+    "no_hallucination": "Arrays must only contain technologies with confirmed signal matches in the input. No inferred or assumed technologies.",
+    "exclusion_list": "googletagmanager.com, gtag/js, google-analytics.com, analytics.js, GA4, segment.com, hotjar.com, fullstory.com, mixpanel.com, amplitude.com, heap.io, facebook.com/tr, pixel, quantserve.com, comscore.com, nielsen.com must never appear in any array.",
+    "canonical_names": "Array values must use canonical technology names from the Signal Detection Reference Table, not raw variable names or URLs.",
+    "deduplication": "Each technology name must appear at most once per array.",
+    "cross_category": "A technology may appear in multiple arrays if it serves multiple roles (e.g., Amazon apstag in both header_bidding_wrappers and ssp_adapters_detected)."
+  }
+}

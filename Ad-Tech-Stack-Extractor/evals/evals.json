@@ -1,0 +1,36 @@
+{
+  "skill_name": "ad-tech-stack-extractor",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Extract from: \"<script async src=\\\"https://securepubads.g.doubleclick.net/tag/js/gpt.js\\\"></script>\\n<script>var pbjs=pbjs||{};pbjs.que=pbjs.que||[];</script>\"",
+      "expected_output": "JSON with ad_server containing Google Ad Manager or GAM, header_bidding_wrappers containing Prebid.js or pbjs reference, and confidence_score above 70.",
+      "files": [],
+      "assertions": [
+        "ad_server contains Google Ad Manager or ad_server contains GAM",
+        "header_bidding_wrappers contains Prebid or header_bidding_wrappers contains pbjs",
+        "confidence_score > 70"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Extract from: \"<script>!function(a9,a,p,s,t,A,g){if(a[a9])return;apstag.init({pubID:'xxx'})}</script>\\n<script src=\\\"//cdn.taboola.com/libtrc/loader.js\\\"></script>\"",
+      "expected_output": "JSON with ssp_adapters_detected containing Amazon or APS, and content_recommendation containing Taboola.",
+      "files": [],
+      "assertions": [
+        "ssp_adapters_detected contains Amazon or ssp_adapters_detected contains APS",
+        "content_recommendation contains Taboola"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Extract from: \"<script async src=\\\"https://www.googletagmanager.com/gtag/js?id=G-XXX\\\"></script>\"",
+      "expected_output": "JSON with empty ad_server and header_bidding_wrappers arrays. GTM/GA4 are analytics tools and must not appear in ad tech arrays.",
+      "files": [],
+      "assertions": [
+        "ad_server length == 0 or ad_server == []",
+        "header_bidding_wrappers == []"
+      ]
+    }
+  ]
+}
