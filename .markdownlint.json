@@ -1,0 +1,10 @@
+{
+  "default": true,
+  "MD013": false,
+  "MD028": false,
+  "MD033": {
+    "allowed_elements": ["details", "summary", "b", "code"]
+  },
+  "MD036": false,
+  "MD060": false
+}
