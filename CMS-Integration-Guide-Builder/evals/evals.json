@@ -1,0 +1,45 @@
+{
+  "skill_name": "cms-integration-guide-builder",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Build guide: {\"cms_platform\":\"WordPress\",\"publisher_domain\":\"myblog.com\"}",
+      "expected_output": "A complete Markdown guide for WordPress ad integration that references GAB/Google Authorized Buyer, includes ads.txt instructions, uses WordPress-specific methods (plugin, functions.php, etc.), and contains no emojis.",
+      "files": [],
+      "assertions": [
+        "output contains 'GAB' or 'Google Authorized Buyer'",
+        "output contains 'ads.txt'",
+        "output contains 'WordPress' or 'functions.php' or 'plugin'",
+        "output does not contain any emoji characters",
+        "output contains 'google.com' ads.txt entry",
+        "output contains section headers for Prerequisites, ads.txt, Header, Body, Verification, Troubleshooting"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Build guide: {\"cms_platform\":\"Next.js\",\"publisher_domain\":\"newssite.io\"}",
+      "expected_output": "A complete Markdown guide for Next.js ad integration that references GAB, includes ads.txt in /public, and uses Next.js-specific patterns (next.config, next/script, _document, or app/layout).",
+      "files": [],
+      "assertions": [
+        "output contains 'GAB'",
+        "output contains 'next.config' or 'next/script' or '_document' or 'app/layout'",
+        "output contains 'ads.txt'",
+        "output contains '/public' directory reference",
+        "output does not contain any emoji characters"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Build guide: {\"cms_platform\":\"HTML\",\"publisher_domain\":\"static.com\"}",
+      "expected_output": "A complete Markdown guide for static HTML ad integration that references <head> and/or <body> tags, includes GAB mention, and includes ads.txt instructions.",
+      "files": [],
+      "assertions": [
+        "output contains '<head>' or '<body>'",
+        "output contains 'GAB'",
+        "output contains 'ads.txt'",
+        "output contains 'web root' or 'index.html' or 'FTP'",
+        "output does not contain any emoji characters"
+      ]
+    }
+  ]
+}

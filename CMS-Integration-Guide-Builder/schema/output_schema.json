@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CMS-Integration-Guide-Builder Output",
+  "description": "Output is strictly valid Markdown text representing a complete ad integration onboarding guide. Not a JSON object.",
+  "type": "string",
+  "contentMediaType": "text/markdown",
+  "description_extended": "The Markdown string must satisfy all of the following structural contracts:",
+  "x-structural-contract": {
+    "required_sections": [
+      "# Ad Integration Guide: {cms_platform} — {publisher_domain}",
+      "## Prerequisites",
+      "## 1. ads.txt Configuration",
+      "## 2. Ad Tag Placement — Header",
+      "## 3. Ad Tag Placement — Body / Ad Slots",
+      "## 4. Verification",
+      "## 5. Troubleshooting"
+    ],
+    "required_content": [
+      "ads.txt entries including google.com line",
+      "Google Authorized Buyer (GAB) mention",
+      "CMS-specific header script injection instructions",
+      "CMS-specific body/slot ad placement instructions",
+      "Verification steps including ads.txt URL check",
+      "Troubleshooting table with at least 4 rows"
+    ],
+    "forbidden_content": [
+      "Emojis",
+      "Marketing language (e.g. 'Easy!', 'Simply', 'Just')",
+      "JSON objects as the output root",
+      "Markdown code fences without language specifiers"
+    ],
+    "code_blocks": "All code samples must use fenced Markdown code blocks with language specifiers (html, js, bash, text, etc.)",
+    "tone": "Imperative mood throughout. Highly technical. No filler.",
+    "ads_txt_lines": {
+      "must_include": [
+        "adwmg.com, {PUBLISHER_SEAT_ID}, DIRECT, f08c47fec0942fa0",
+        "adwmg.com, {PUBLISHER_SEAT_ID}, RESELLER, f08c47fec0942fa0",
+        "google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0"
+      ],
+      "gab_note": "Must explicitly state that the google.com line authorizes Google Authorized Buyer (GAB) demand."
+    }
+  }
+}

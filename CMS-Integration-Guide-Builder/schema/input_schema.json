@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CMS-Integration-Guide-Builder Input",
+  "description": "Input parameters for generating a CMS-specific ad integration onboarding guide.",
+  "type": "object",
+  "required": ["cms_platform", "publisher_domain"],
+  "additionalProperties": false,
+  "properties": {
+    "cms_platform": {
+      "type": "string",
+      "description": "The publisher's CMS or site framework. Examples: 'WordPress', 'Next.js', 'HTML', 'Webflow', 'Shopify', 'Ghost'. Unknown platforms receive generic instructions.",
+      "minLength": 1,
+      "examples": ["WordPress", "Next.js", "HTML", "Webflow", "Shopify", "Ghost"]
+    },
+    "publisher_domain": {
+      "type": "string",
+      "description": "The publisher's root domain (without protocol). Used to construct ads.txt verification URL and personalize the guide. Example: 'myblog.com'.",
+      "minLength": 1,
+      "examples": ["myblog.com", "newssite.io", "static.com"]
+    }
+  }
+}
