@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DailyOutreachSummarizerOutput",
+  "description": "Plain text daily outreach report. No markdown, no bullets, no bold, no emojis.",
+  "type": "string",
+  "constraints": {
+    "must_start_with": "Daily Outreach Report.",
+    "must_not_contain": ["**", "* ", "# ", "## ", "- ", "• ", "emoji"],
+    "must_contain": [
+      "Total emails sent:",
+      "Total opens:",
+      "Open rate:",
+      "Total replies:",
+      "Reply rate:",
+      "Positive replies:",
+      "Negative replies:",
+      "Technical inquiries:",
+      "Other replies:",
+      "Domains with replies:",
+      "Domains with no reply:"
+    ],
+    "format": "Plain text only. Each metric on its own line ending with a period. Sections separated by a single blank line."
+  },
+  "examples": [
+    "Daily Outreach Report.\nTotal emails sent: 2.\nTotal opens: 1.\nOpen rate: 50.0%.\nTotal replies: 2.\nReply rate: 100.0%.\n\nPositive replies: 1.\nNegative replies: 1.\nTechnical inquiries: 0.\nOther replies: 0.\n\nDomains with replies:\nb.com: Negative.\nc.com: Positive.\n\nDomains with no reply:\na.com."
+  ]
+}

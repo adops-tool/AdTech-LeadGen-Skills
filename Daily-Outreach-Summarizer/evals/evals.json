@@ -1,0 +1,28 @@
+{
+  "skill_name": "Daily-Outreach-Summarizer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Summarize: [{\"event\":\"sent\",\"domain\":\"a.com\",\"reply_text\":null},{\"event\":\"sent\",\"domain\":\"b.com\",\"reply_text\":null},{\"event\":\"open\",\"domain\":\"a.com\",\"reply_text\":null},{\"event\":\"reply\",\"domain\":\"b.com\",\"reply_text\":\"not interested\"},{\"event\":\"reply\",\"domain\":\"c.com\",\"reply_text\":\"send more info\"}]",
+      "expected_output": "see assertions",
+      "files": [],
+      "assertions": [
+        "output contains Total emails sent: 2",
+        "output not contains **",
+        "output not contains - ",
+        "output contains Total replies: 2"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Summarize: [{\"event\":\"sent\",\"domain\":\"x.com\",\"reply_text\":null},{\"event\":\"sent\",\"domain\":\"y.com\",\"reply_text\":null}]",
+      "expected_output": "see assertions",
+      "files": [],
+      "assertions": [
+        "output contains Total emails sent: 2",
+        "output contains Total replies: 0",
+        "output not contains markdown"
+      ]
+    }
+  ]
+}
