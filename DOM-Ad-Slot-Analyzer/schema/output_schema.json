@@ -1,0 +1,77 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DOM-Ad-Slot-Analyzer Output",
+  "description": "Structured slot mapping for all analyzed HTML ad containers.",
+  "type": "object",
+  "required": ["ad_slots_analyzed", "slots"],
+  "additionalProperties": false,
+  "properties": {
+    "ad_slots_analyzed": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total count of input HTML snippets analyzed."
+    },
+    "slots": {
+      "type": "array",
+      "description": "One entry per input snippet, in the same order as the input array.",
+      "items": {
+        "type": "object",
+        "required": ["container_id", "is_gpt_integrated", "is_lazy_loaded", "viewability_blockers_detected"],
+        "additionalProperties": false,
+        "properties": {
+          "container_id": {
+            "type": "string",
+            "description": "Value of the id attribute, or 'unnamed-slot-{N}' if absent."
+          },
+          "is_gpt_integrated": {
+            "type": "boolean",
+            "description": "True if the container has a div-gpt-ad id or known GPT data attributes."
+          },
+          "is_lazy_loaded": {
+            "type": "boolean",
+            "description": "True if any lazy loading signal is detected on the element."
+          },
+          "viewability_blockers_detected": {
+            "type": "array",
+            "description": "List of detected viewability blocker signals. Empty array if none.",
+            "items": {
+              "type": "string",
+              "enum": [
+                "display:none",
+                "visibility:hidden",
+                "opacity:0",
+                "height:0",
+                "width:0",
+                "hidden-attribute",
+                "aria-hidden",
+                "class:hidden",
+                "class:invisible",
+                "ad-status:unfilled",
+                "ad-status:collapsed"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "ad_slots_analyzed": 2,
+      "slots": [
+        {
+          "container_id": "div-gpt-ad-123456789-0",
+          "is_gpt_integrated": true,
+          "is_lazy_loaded": false,
+          "viewability_blockers_detected": []
+        },
+        {
+          "container_id": "unnamed-slot-1",
+          "is_gpt_integrated": false,
+          "is_lazy_loaded": false,
+          "viewability_blockers_detected": ["display:none"]
+        }
+      ]
+    }
+  ]
+}

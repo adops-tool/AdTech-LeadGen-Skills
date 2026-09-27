@@ -1,0 +1,43 @@
+{
+  "skill_name": "DOM-Ad-Slot-Analyzer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Analyze: [\"<div id=\\\"div-gpt-ad-123456789-0\\\" style=\\\"width:728px;height:90px;\\\"></div>\"]",
+      "expected_output": "JSON with ad_slots_analyzed=1, slots[0].container_id='div-gpt-ad-123456789-0', is_gpt_integrated=true, is_lazy_loaded=false, viewability_blockers_detected=[]",
+      "files": [],
+      "assertions": [
+        "slots[0].is_gpt_integrated == true",
+        "slots[0].viewability_blockers_detected == []",
+        "slots[0].is_lazy_loaded == false",
+        "ad_slots_analyzed == 1",
+        "slots[0].container_id == 'div-gpt-ad-123456789-0'"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Analyze: [\"<div class=\\\"ad-unit\\\" style=\\\"display:none;\\\"></div>\"]",
+      "expected_output": "JSON with ad_slots_analyzed=1, slots[0].is_gpt_integrated=false, viewability_blockers_detected contains 'display:none', container_id='unnamed-slot-0'",
+      "files": [],
+      "assertions": [
+        "slots[0].is_gpt_integrated == false",
+        "slots[0].viewability_blockers_detected contains 'display:none'",
+        "slots[0].container_id == 'unnamed-slot-0'",
+        "ad_slots_analyzed == 1"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Analyze: [\"<div id=\\\"div-gpt-ad-987\\\" data-lazy=\\\"true\\\"></div>\"]",
+      "expected_output": "JSON with ad_slots_analyzed=1, slots[0].is_gpt_integrated=true, is_lazy_loaded=true, viewability_blockers_detected=[]",
+      "files": [],
+      "assertions": [
+        "slots[0].is_gpt_integrated == true",
+        "slots[0].is_lazy_loaded == true",
+        "slots[0].viewability_blockers_detected == []",
+        "slots[0].container_id == 'div-gpt-ad-987'",
+        "ad_slots_analyzed == 1"
+      ]
+    }
+  ]
+}

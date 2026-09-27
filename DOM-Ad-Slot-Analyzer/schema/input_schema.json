@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DOM-Ad-Slot-Analyzer Input",
+  "description": "Array of raw HTML container snippet strings to analyze for ad slot configuration.",
+  "type": "array",
+  "items": {
+    "type": "string",
+    "description": "A single HTML element snippet (opening tag or full element) representing one ad container."
+  },
+  "minItems": 0,
+  "examples": [
+    [
+      "<div id=\"div-gpt-ad-123456789-0\" style=\"width:728px;height:90px;\"></div>",
+      "<div class=\"ad-unit\" style=\"display:none;\"></div>",
+      "<div id=\"div-gpt-ad-987\" data-lazy=\"true\"></div>"
+    ]
+  ]
+}
