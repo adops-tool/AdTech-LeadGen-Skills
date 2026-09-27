@@ -1,0 +1,41 @@
+{
+  "skill_name": "discrepancy-diagnostic-agent",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Diagnose: {\"gam_impressions\":100000,\"ssp_impressions\":98000,\"ad_format\":\"banner\",\"ssp_name\":\"AppNexus\"}",
+      "expected_output": "JSON with discrepancy_percentage=2.00, status=Normal, non-empty probable_causes array.",
+      "files": [],
+      "assertions": [
+        "discrepancy_percentage is less than 5",
+        "status equals 'Normal'",
+        "probable_causes array has length greater than 0",
+        "output is valid JSON with no surrounding prose or markdown fences"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Diagnose: {\"gam_impressions\":50000,\"ssp_impressions\":30000,\"ad_format\":\"video\",\"ssp_name\":\"SpotX\"}",
+      "expected_output": "JSON with discrepancy_percentage=40.00, status=Critical, probable_causes referencing VPAID or timeout or wrapper.",
+      "files": [],
+      "assertions": [
+        "discrepancy_percentage is greater than 35",
+        "status equals 'Critical'",
+        "probable_causes contains 'VPAID' or 'timeout' or 'wrapper'",
+        "output is valid JSON with no surrounding prose or markdown fences"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Diagnose: {\"gam_impressions\":200000,\"ssp_impressions\":170000,\"ad_format\":\"banner\",\"ssp_name\":\"Prebid\"}",
+      "expected_output": "JSON with discrepancy_percentage=15.00, status=High, probable_causes referencing Prebid or timeout.",
+      "files": [],
+      "assertions": [
+        "status equals 'High'",
+        "probable_causes contains 'Prebid' or 'timeout'",
+        "recommended_investigation_steps array has length between 4 and 6",
+        "output is valid JSON with no surrounding prose or markdown fences"
+      ]
+    }
+  ]
+}

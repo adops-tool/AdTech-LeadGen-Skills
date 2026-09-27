@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Discrepancy-Diagnostic-Agent Output",
+  "description": "Discrepancy analysis result with severity status, probable causes, and investigation steps.",
+  "type": "object",
+  "required": ["discrepancy_percentage", "status", "probable_causes", "recommended_investigation_steps"],
+  "additionalProperties": false,
+  "properties": {
+    "discrepancy_percentage": {
+      "type": "number",
+      "description": "Signed percentage by which SSP undercounts relative to GAM. Formula: ((gam - ssp) / gam) * 100, rounded to 2 decimal places. Negative if SSP overcounts.",
+    },
+    "status": {
+      "type": "string",
+      "description": "Severity classification based on absolute discrepancy: Normal (<10%), High (10-20%), Critical (>20%).",
+      "enum": ["Normal", "High", "Critical"]
+    },
+    "probable_causes": {
+      "type": "array",
+      "description": "Ordered list of probable root causes. Always includes universal causes; expands with format-specific and status-specific causes. Video must reference VPAID/timeout/wrapper. Banner+Prebid must reference Prebid/timeout.",
+      "minItems": 2,
+      "items": {
+        "type": "string",
+        "minLength": 10,
+        "maxLength": 400
+      }
+    },
+    "recommended_investigation_steps": {
+      "type": "array",
+      "description": "4-6 ordered, actionable investigation steps, from least to most invasive. Imperative form, specifying tool or location where applicable.",
+      "minItems": 4,
+      "maxItems": 6,
+      "items": {
+        "type": "string",
+        "minLength": 10,
+        "maxLength": 400
+      }
+    }
+  }
+}

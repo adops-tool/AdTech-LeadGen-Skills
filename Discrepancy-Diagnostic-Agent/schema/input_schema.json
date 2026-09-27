@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Discrepancy-Diagnostic-Agent Input",
+  "description": "Input parameters for GAM vs SSP impression discrepancy diagnosis.",
+  "type": "object",
+  "required": ["gam_impressions", "ssp_impressions", "ad_format", "ssp_name"],
+  "additionalProperties": false,
+  "properties": {
+    "gam_impressions": {
+      "type": "integer",
+      "description": "Total impressions recorded by Google Ad Manager (ad server, authoritative source).",
+      "minimum": 0
+    },
+    "ssp_impressions": {
+      "type": "integer",
+      "description": "Total impressions recorded by the Supply-Side Platform.",
+      "minimum": 0
+    },
+    "ad_format": {
+      "type": "string",
+      "description": "Ad creative format. Determines format-specific probable causes and investigation steps.",
+      "enum": ["banner", "video", "native"]
+    },
+    "ssp_name": {
+      "type": "string",
+      "description": "Name of the SSP (e.g. 'AppNexus', 'SpotX', 'Prebid', 'Index Exchange'). Used for context in causes and steps.",
+      "minLength": 1
+    }
+  }
+}
