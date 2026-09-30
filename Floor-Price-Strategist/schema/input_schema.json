@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "FloorPriceStrategyInput",
+  "description": "Array of inventory units to analyze for optimal floor price.",
+  "type": "array",
+  "minItems": 1,
+  "items": {
+    "type": "object",
+    "required": ["inventory_unit", "geo", "avg_cpm", "fill_rate_percentage", "bid_density_peak_range"],
+    "additionalProperties": false,
+    "properties": {
+      "inventory_unit": {
+        "type": "string",
+        "description": "Identifier for the ad inventory unit (e.g., 'Leaderboard_ATF', 'Mobile_Banner').",
+        "minLength": 1
+      },
+      "geo": {
+        "type": "string",
+        "description": "ISO 3166-1 alpha-2 country code (e.g., 'US', 'UK', 'IN', 'BR').",
+        "pattern": "^[A-Z]{2}$",
+        "minLength": 2,
+        "maxLength": 2
+      },
+      "avg_cpm": {
+        "type": "number",
+        "description": "Current average CPM in USD over the measurement window.",
+        "minimum": 0,
+        "exclusiveMinimum": true
+      },
+      "fill_rate_percentage": {
+        "type": "number",
+        "description": "Observed fill rate as a percentage (0–100).",
+        "minimum": 0,
+        "maximum": 100
+      },
+      "bid_density_peak_range": {
+        "type": "string",
+        "description": "Dollar range representing the peak bid density band (e.g., '$0.80-$1.20').",
+        "pattern": "^\\$[0-9]+(?:\\.[0-9]{1,2})?-\\$[0-9]+(?:\\.[0-9]{1,2})?$"
+      }
+    }
+  }
+}

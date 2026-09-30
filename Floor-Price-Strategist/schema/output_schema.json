@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "FloorPriceStrategyOutput",
+  "description": "UPR recommendations output from the Floor-Price-Strategist.",
+  "type": "object",
+  "required": ["analysis_summary", "upr_recommendations"],
+  "additionalProperties": false,
+  "properties": {
+    "analysis_summary": {
+      "type": "string",
+      "description": "Single concise sentence describing the dominant pattern: GEO tier applied, decision rule triggered, directional recommendation.",
+      "minLength": 10
+    },
+    "upr_recommendations": {
+      "type": "array",
+      "description": "One recommendation object per input inventory unit.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "inventory_target",
+          "geo_target",
+          "current_floor",
+          "recommended_floor",
+          "expected_fill_rate_change",
+          "expected_revenue_impact"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "inventory_target": {
+            "type": "string",
+            "description": "Inventory unit identifier (matches input inventory_unit)."
+          },
+          "geo_target": {
+            "type": "string",
+            "description": "Country code (matches input geo).",
+            "pattern": "^[A-Z]{2}$"
+          },
+          "current_floor": {
+            "type": "number",
+            "description": "Implied current floor price in USD (2 decimal places).",
+            "minimum": 0
+          },
+          "recommended_floor": {
+            "type": "number",
+            "description": "Recommended new floor price in USD (2 decimal places).",
+            "minimum": 0,
+            "exclusiveMinimum": true
+          },
+          "expected_fill_rate_change": {
+            "type": "string",
+            "description": "Directional fill rate change in percentage points (e.g., '-12 pp expected', '+38 pp expected').",
+            "pattern": "^[+-][0-9]+"
+          },
+          "expected_revenue_impact": {
+            "type": "string",
+            "description": "Projected revenue delta as signed percentage (e.g., '+9.5%', '-2.1%'). Must contain + or - sign.",
+            "pattern": "^[+-][0-9]+(?:\\.[0-9]+)?%$"
+          }
+        }
+      }
+    }
+  }
+}

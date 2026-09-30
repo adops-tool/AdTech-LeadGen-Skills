@@ -1,0 +1,38 @@
+{
+  "skill_name": "Floor-Price-Strategist",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Calculate: [{\"inventory_unit\":\"Leaderboard_ATF\",\"geo\":\"US\",\"avg_cpm\":0.50,\"fill_rate_percentage\":95,\"bid_density_peak_range\":\"$0.80-$1.20\"}]",
+      "expected_output": "see assertions",
+      "files": [],
+      "assertions": [
+        "recommended_floor > 0.80",
+        "expected_revenue_impact contains +"
+      ],
+      "notes": "US T1 inventory with fill >90% and avg_cpm far below bid peak midpoint ($1.00). Should trigger RAISE rule. recommended_floor must exceed the low bound of the bid density peak ($0.80). Revenue impact must be positive given floor is being raised toward actual market clearing price."
+    },
+    {
+      "id": 2,
+      "prompt": "Calculate: [{\"inventory_unit\":\"Sidebar_BTF\",\"geo\":\"IN\",\"avg_cpm\":2.00,\"fill_rate_percentage\":15,\"bid_density_peak_range\":\"$0.10-$0.15\"}]",
+      "expected_output": "see assertions",
+      "files": [],
+      "assertions": [
+        "recommended_floor < 2.00",
+        "analysis_summary contains lower OR reduce"
+      ],
+      "notes": "IN T3 inventory with fill <30% and avg_cpm ($2.00) massively above T3-adjusted bid peak midpoint (~$0.056). Should trigger LOWER rule. recommended_floor must be below current avg_cpm. analysis_summary must explicitly state the floor reduction directive."
+    },
+    {
+      "id": 3,
+      "prompt": "Calculate: [{\"inventory_unit\":\"Mobile_Banner\",\"geo\":\"UK\",\"avg_cpm\":1.00,\"fill_rate_percentage\":60,\"bid_density_peak_range\":\"$0.90-$1.10\"}]",
+      "expected_output": "see assertions",
+      "files": [],
+      "assertions": [
+        "upr_recommendations length > 0",
+        "expected_revenue_impact is not empty"
+      ],
+      "notes": "UK T1 inventory with fill in equilibrium band (30–90%). Should trigger CALIBRATE rule at 90% of bid peak midpoint ($1.00 × 0.90 = $0.90). Validates that a recommendation is always produced and revenue impact is always populated."
+    }
+  ]
+}
