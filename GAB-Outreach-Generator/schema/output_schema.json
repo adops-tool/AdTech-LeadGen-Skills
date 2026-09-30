@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GAB-Outreach-Generator Output",
+  "description": "Cold outreach email for a programmatic publisher partnership via Google Authorized Buyer. Raw JSON only — no markdown fences, no surrounding text.",
+  "type": "object",
+  "required": ["subject_line", "email_body", "technical_hooks_used"],
+  "properties": {
+    "subject_line": {
+      "type": "string",
+      "description": "Email subject line. Specific, technical, non-clickbait. References domain or vertical. No exclamation marks. No emoji. Maximum 60 characters strongly preferred.",
+      "minLength": 1,
+      "maxLength": 120,
+      "examples": [
+        "Direct GAB demand for breakingnews.com — supply chain proposal",
+        "GAB programmatic demand for utilityapp.net monetization",
+        "Programmatic demand access for lifestyle.blog via GAB"
+      ]
+    },
+    "email_body": {
+      "type": "string",
+      "description": "Full email text including salutation and sign-off. Prose only — no bullet lists, no headers. 4–6 sentences in the body. Must contain 'Google Authorized Buyer' or 'GAB'. Must not contain: hope, great day, emoji, Dear undefined, Dear null, or any unfilled placeholder. Salutation is 'Hi [name],' when contact_name is provided, otherwise 'Hi,'.",
+      "minLength": 100
+    },
+    "technical_hooks_used": {
+      "type": "array",
+      "description": "Short labels for each technical concept referenced in the email body. Minimum 2 items. Used for audit and A/B testing of messaging approaches.",
+      "items": {
+        "type": "string",
+        "description": "Technical concept label (e.g. 'GAB direct demand', 'sellers.json compliance', 'fill rate optimization', 'CPM floor control', 'viewability optimization')."
+      },
+      "minItems": 2
+    }
+  },
+  "additionalProperties": false,
+  "constraints": {
+    "output_format": "Raw JSON only. No markdown code fences. No surrounding text.",
+    "gab_required": "email_body must contain 'Google Authorized Buyer' or 'GAB'.",
+    "prohibited_openers": ["Hope you are having", "Hope this finds you", "I wanted to reach out", "My name is"],
+    "prohibited_phrases": ["hope", "great day", "exciting opportunity", "amazing", "innovative solution"],
+    "prohibited_salutations": ["Dear undefined", "Dear null", "Dear [contact_name]"],
+    "no_emoji": "Zero emoji characters in subject_line or email_body.",
+    "hook_minimum": "technical_hooks_used must contain at least 2 items."
+  }
+}

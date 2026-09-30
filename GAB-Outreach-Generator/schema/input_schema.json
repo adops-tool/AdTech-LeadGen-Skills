@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GAB-Outreach-Generator Input",
+  "description": "Publisher profile used to generate a targeted cold outreach email for a Google Authorized Buyer programmatic monetization program.",
+  "type": "object",
+  "required": ["domain", "vertical", "traffic_tier"],
+  "properties": {
+    "domain": {
+      "type": "string",
+      "description": "Publisher domain name (e.g. 'breakingnews.com'). Used for subject line personalization and contextual framing.",
+      "minLength": 1,
+      "examples": ["breakingnews.com", "utilityapp.net", "lifestyle.blog"]
+    },
+    "vertical": {
+      "type": "string",
+      "description": "Publisher content vertical. Determines which technical hooks are selected. Known values: news, finance, lifestyle, utilities, gaming, tech, health, travel. Unknown values fall back to default hooks.",
+      "minLength": 1,
+      "examples": ["news", "finance", "lifestyle", "utilities", "gaming", "tech", "health", "travel"]
+    },
+    "traffic_tier": {
+      "type": "string",
+      "description": "Publisher traffic tier classification. Determines emphasis of the value proposition.",
+      "enum": ["Tier-1", "Tier-2", "Tier-3"],
+      "examples": ["Tier-1", "Tier-2", "Tier-3"]
+    },
+    "contact_name": {
+      "type": "string",
+      "description": "First name of the recipient. Optional. When present, used in the salutation as 'Hi [contact_name],'. When absent or empty, salutation defaults to 'Hi,'.",
+      "examples": ["Alex", "Maria", "James"]
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "domain": "breakingnews.com",
+      "vertical": "news",
+      "traffic_tier": "Tier-1",
+      "contact_name": "Alex"
+    },
+    {
+      "domain": "utilityapp.net",
+      "vertical": "utilities",
+      "traffic_tier": "Tier-2"
+    },
+    {
+      "domain": "lifestyle.blog",
+      "vertical": "lifestyle",
+      "traffic_tier": "Tier-2"
+    }
+  ]
+}

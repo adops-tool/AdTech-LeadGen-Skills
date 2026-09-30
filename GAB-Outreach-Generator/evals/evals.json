@@ -1,0 +1,37 @@
+{
+  "skill_name": "gab-outreach-generator",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Generate: {\"domain\":\"breakingnews.com\",\"vertical\":\"news\",\"traffic_tier\":\"Tier-1\",\"contact_name\":\"Alex\"}",
+      "expected_output": "JSON with email_body containing GAB or Google Authorized Buyer, no generic opener phrases, and at least 2 technical hooks.",
+      "files": [],
+      "assertions": [
+        "email_body contains Google Authorized Buyer or email_body contains GAB",
+        "email_body not contains hope",
+        "email_body not contains great day",
+        "technical_hooks_used length > 0"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Generate: {\"domain\":\"utilityapp.net\",\"vertical\":\"utilities\",\"traffic_tier\":\"Tier-2\"}",
+      "expected_output": "JSON with a non-empty subject line and email body containing no emoji characters.",
+      "files": [],
+      "assertions": [
+        "subject_line is not empty",
+        "email_body not contains emoji"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Generate: {\"domain\":\"lifestyle.blog\",\"vertical\":\"lifestyle\",\"traffic_tier\":\"Tier-2\"}",
+      "expected_output": "JSON with email body using generic salutation (no placeholder artifacts) and containing at least one of: fill rate, yield, demand.",
+      "files": [],
+      "assertions": [
+        "email_body not contains Dear undefined",
+        "email_body contains fill rate or email_body contains yield or email_body contains demand"
+      ]
+    }
+  ]
+}
