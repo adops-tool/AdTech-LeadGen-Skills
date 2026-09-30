@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DomainScoutEvaluatorOutput",
+  "type": "object",
+  "required": ["lead_score", "pipeline_status", "projected_ecpm_tier", "rationale"],
+  "additionalProperties": false,
+  "properties": {
+    "lead_score": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Composite monetization eligibility score. 0–39 = low/rejected; 40–69 = manual review; 70–100 = approved."
+    },
+    "pipeline_status": {
+      "type": "string",
+      "enum": ["approved", "rejected", "manual_review"],
+      "description": "GAB partnership pipeline decision derived from lead_score and hard rejection gates."
+    },
+    "projected_ecpm_tier": {
+      "type": "string",
+      "enum": ["low", "medium", "high"],
+      "description": "Expected programmatic eCPM band for this domain based on GEO quality, niche, and volume."
+    },
+    "rationale": {
+      "type": "string",
+      "maxLength": 400,
+      "description": "Two-sentence analytical justification. Must reference 'programmatic GAB demand ecosystem'. No conversational language."
+    }
+  }
+}

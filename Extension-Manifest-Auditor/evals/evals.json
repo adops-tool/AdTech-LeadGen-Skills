@@ -1,0 +1,36 @@
+{
+  "skill_name": "Extension-Manifest-Auditor",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Audit manifest: {\"manifest_version\":2,\"name\":\"My Ext\",\"background\":{\"scripts\":[\"bg.js\"]}}",
+      "expected_output": "see assertions",
+      "files": [],
+      "assertions": [
+        "manifest_version == 2",
+        "is_mv3_compliant == false",
+        "optimization_suggestions contains service_worker"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Audit manifest: {\"manifest_version\":3,\"name\":\"My Ext\",\"host_permissions\":[\"<all_urls>\"],\"permissions\":[\"tabs\",\"storage\"]}",
+      "expected_output": "see assertions",
+      "files": [],
+      "assertions": [
+        "is_mv3_compliant == true",
+        "security_warnings contains all_urls OR host_permissions OR broad"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Audit manifest: {\"manifest_version\":3,\"name\":\"Clean Ext\",\"permissions\":[\"storage\"],\"background\":{\"service_worker\":\"sw.js\"}}",
+      "expected_output": "see assertions",
+      "files": [],
+      "assertions": [
+        "is_mv3_compliant == true",
+        "security_warnings == []"
+      ]
+    }
+  ]
+}

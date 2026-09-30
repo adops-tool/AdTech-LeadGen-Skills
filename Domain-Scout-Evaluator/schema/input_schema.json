@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DomainScoutEvaluatorInput",
+  "type": "object",
+  "required": ["domain", "category", "monthly_visits", "geo_distribution", "bounce_rate"],
+  "additionalProperties": false,
+  "properties": {
+    "domain": {
+      "type": "string",
+      "description": "Registered domain name of the publisher (e.g. worldnews.com)."
+    },
+    "category": {
+      "type": "string",
+      "description": "Primary content vertical of the domain. Empty string triggers unclassified scoring."
+    },
+    "monthly_visits": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Estimated total unique monthly visits to the domain."
+    },
+    "geo_distribution": {
+      "type": "object",
+      "required": ["US", "UK", "IN", "other"],
+      "additionalProperties": false,
+      "description": "Fractional share of monthly traffic per geography. Values must sum to ~1.0.",
+      "properties": {
+        "US": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Share of traffic from the United States."
+        },
+        "UK": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Share of traffic from the United Kingdom."
+        },
+        "IN": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Share of traffic from India."
+        },
+        "other": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Aggregate share from all remaining geographies."
+        }
+      }
+    },
+    "bounce_rate": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Single-page session rate as a decimal fraction (e.g. 0.42 = 42%)."
+    }
+  }
+}

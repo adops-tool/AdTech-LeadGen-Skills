@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ExtensionManifestAuditorOutput",
+  "description": "Audit result for a Chrome Extension manifest.json file.",
+  "oneOf": [
+    {
+      "title": "AuditResult",
+      "type": "object",
+      "required": ["manifest_version", "is_mv3_compliant", "security_warnings", "optimization_suggestions"],
+      "additionalProperties": false,
+      "properties": {
+        "manifest_version": {
+          "type": "integer",
+          "description": "The value of the manifest_version field in the parsed manifest. 0 if absent.",
+          "minimum": 0
+        },
+        "is_mv3_compliant": {
+          "type": "boolean",
+          "description": "True only when manifest_version === 3 AND no MV2-only deprecated fields are present."
+        },
+        "security_warnings": {
+          "type": "array",
+          "description": "List of security risk warnings. Empty array when no security issues are found.",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "optimization_suggestions": {
+          "type": "array",
+          "description": "List of actionable fix recommendations in imperative mood. Empty array when no issues found.",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    {
+      "title": "ParseError",
+      "type": "object",
+      "description": "Returned when the input string is not valid JSON.",
+      "required": ["error"],
+      "additionalProperties": false,
+      "properties": {
+        "error": {
+          "type": "string",
+          "description": "Human-readable parse error message, e.g. 'Invalid JSON: Unexpected token } at position 42'."
+        }
+      }
+    }
+  ]
+}

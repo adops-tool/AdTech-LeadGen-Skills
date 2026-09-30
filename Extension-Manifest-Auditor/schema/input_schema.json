@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ExtensionManifestAuditorInput",
+  "description": "Raw string input containing the contents of a Chrome Extension manifest.json file.",
+  "type": "string",
+  "minLength": 2,
+  "examples": [
+    "{\"manifest_version\":3,\"name\":\"My Extension\",\"permissions\":[\"storage\"],\"background\":{\"service_worker\":\"sw.js\"}}",
+    "{\"manifest_version\":2,\"name\":\"Legacy Ext\",\"background\":{\"scripts\":[\"bg.js\"]},\"permissions\":[\"tabs\",\"<all_urls>\"]}"
+  ],
+  "notes": [
+    "The string must be valid JSON representing a Chrome Extension manifest object.",
+    "If the string is not valid JSON, the skill returns {\"error\": \"Invalid JSON: <message>\"}.",
+    "The input may be passed as a raw string or wrapped in a natural-language prompt such as 'Audit manifest: {...}'."
+  ]
+}
