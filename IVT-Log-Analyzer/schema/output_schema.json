@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "IVT-Log-Analyzer Output",
+  "description": "IVT analysis result including fraud patterns, flagged IPs, and GAB compliance verdict.",
+  "type": "object",
+  "required": ["estimated_ivt_percentage", "compliance_status", "fraud_patterns_detected", "flagged_ips"],
+  "additionalProperties": false,
+  "properties": {
+    "estimated_ivt_percentage": {
+      "type": "number",
+      "description": "Percentage of requests classified as Invalid Traffic. Formula: (ivt_requests / total_requests) * 100, rounded to 2 decimal places. Range: 0.0 – 100.0.",
+      "minimum": 0.0,
+      "maximum": 100.0
+    },
+    "compliance_status": {
+      "type": "string",
+      "description": "GAB compliance verdict based on IVT threshold. Approved: IVT < 5%. Warning: IVT 5–20%. Rejected: IVT > 20%. Thresholds defined by Google Authorized Buyer (GAB) requirements.",
+      "enum": ["Approved", "Warning", "Rejected"]
+    },
+    "fraud_patterns_detected": {
+      "type": "array",
+      "description": "Deduplicated list of forensic fraud pattern strings. Includes headless UA detections, datacenter IP origins, behavioral anomalies, IP concentration patterns, and GAB non-compliance statement (when Rejected). Empty array if no patterns detected.",
+      "items": {
+        "type": "string",
+        "minLength": 5
+      }
+    },
+    "flagged_ips": {
+      "type": "array",
+      "description": "Deduplicated list of IP addresses that appear in at least one IVT-flagged request. Empty array if no IPs flagged.",
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "uniqueItems": true
+    }
+  }
+}

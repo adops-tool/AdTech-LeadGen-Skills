@@ -1,0 +1,42 @@
+{
+  "skill_name": "ivt-log-analyzer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Analyze: {\"domain\":\"clean.com\",\"requests\":[{\"ip\":\"78.45.123.10\",\"user_agent\":\"Mozilla/5.0 Chrome/120\",\"timestamp\":\"2024-01-01T10:00:00\",\"behavior_flags\":[]},{\"ip\":\"91.200.45.67\",\"user_agent\":\"Mozilla/5.0 Firefox/121\",\"timestamp\":\"2024-01-01T10:01:23\",\"behavior_flags\":[]}]}",
+      "expected_output": "JSON with estimated_ivt_percentage=0.0, compliance_status=Approved, empty arrays for patterns and flagged IPs.",
+      "files": [],
+      "assertions": [
+        "estimated_ivt_percentage is less than 5",
+        "compliance_status equals 'Approved'",
+        "output is valid JSON with no surrounding prose or markdown fences"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Analyze: {\"domain\":\"fraud.com\",\"requests\":[{\"ip\":\"142.250.80.1\",\"user_agent\":\"HeadlessChrome/120\",\"timestamp\":\"2024-01-01T10:00:01\",\"behavior_flags\":[\"datacenter\",\"headless\"]},{\"ip\":\"142.250.80.2\",\"user_agent\":\"HeadlessChrome/120\",\"timestamp\":\"2024-01-01T10:00:02\",\"behavior_flags\":[\"datacenter\",\"headless\"]}]}",
+      "expected_output": "JSON with estimated_ivt_percentage=100.0, compliance_status=Rejected, fraud_patterns referencing datacenter or headless, flagged_ips containing both IPs.",
+      "files": [],
+      "assertions": [
+        "estimated_ivt_percentage is greater than 50",
+        "compliance_status equals 'Rejected'",
+        "fraud_patterns_detected contains 'datacenter' or 'headless' or 'Headless'",
+        "flagged_ips array has length greater than 0",
+        "fraud_patterns_detected contains 'Google Authorized Buyer' or 'GAB'",
+        "output is valid JSON with no surrounding prose or markdown fences"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Analyze: {\"domain\":\"bot.com\",\"requests\":[{\"ip\":\"10.0.0.1\",\"user_agent\":\"Mozilla/5.0\",\"timestamp\":\"2024-01-01T10:00:00\",\"behavior_flags\":[\"interval_1s\"]},{\"ip\":\"10.0.0.1\",\"user_agent\":\"Mozilla/5.0\",\"timestamp\":\"2024-01-01T10:00:01\",\"behavior_flags\":[\"interval_1s\"]}]}",
+      "expected_output": "JSON with compliance_status Warning or Rejected, fraud_patterns referencing interval or bot or programmatic behavior.",
+      "files": [],
+      "assertions": [
+        "compliance_status equals 'Warning' or compliance_status equals 'Rejected'",
+        "fraud_patterns_detected contains 'interval' or 'bot' or 'programmatic' or 'Behavioral'",
+        "flagged_ips contains '10.0.0.1'",
+        "output is valid JSON with no surrounding prose or markdown fences"
+      ]
+    }
+  ]
+}
