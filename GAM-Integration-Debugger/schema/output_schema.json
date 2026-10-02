@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GAM-Integration-Debugger Output",
+  "description": "Structured diagnostic result from the GAM GPT integration analysis.",
+  "type": "object",
+  "required": ["root_cause_summary", "severity", "original_problematic_lines", "suggested_code_fix"],
+  "properties": {
+    "root_cause_summary": {
+      "type": "string",
+      "description": "Precise technical explanation of the root cause. One to three sentences. Must name the specific API call or structural error. No hedging language.",
+      "minLength": 10
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["critical", "warning"],
+      "description": "'critical' — issue prevents ad rendering entirely. 'warning' — ads may render but with degraded performance or non-standard behavior."
+    },
+    "original_problematic_lines": {
+      "type": "array",
+      "description": "Verbatim lines from the submitted snippet that contain or constitute the defect. If the problem is an omission, include a note string describing what is absent.",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "suggested_code_fix": {
+      "type": "string",
+      "description": "Complete, corrected GPT implementation. Must be self-contained and runnable as submitted. Must not be empty. A response without a code fix does not satisfy this schema.",
+      "minLength": 20
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "root_cause_summary": "googletag.enableServices() is invoked before googletag.defineSlot() and before enableSingleRequest(), violating the required GPT initialization sequence.",
+      "severity": "critical",
+      "original_problematic_lines": [
+        "googletag.enableServices();",
+        "googletag.pubads().enableSingleRequest();"
+      ],
+      "suggested_code_fix": "<script async src=\"https://securepubads.g.doubleclick.net/tag/js/gpt.js\"></script>\n<script>\n  window.googletag = window.googletag || {cmd: []};\n  googletag.cmd.push(function() {\n    googletag.defineSlot('/1234/banner', [728, 90], 'div-1')\n      .addService(googletag.pubads());\n    googletag.pubads().enableSingleRequest();\n    googletag.enableServices();\n  });\n</script>\n<div id=\"div-1\"></div>\n<script>\n  googletag.cmd.push(function() { googletag.display('div-1'); });\n</script>"
+    }
+  ]
+}

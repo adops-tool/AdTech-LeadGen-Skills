@@ -1,0 +1,36 @@
+{
+  "skill_name": "GAM-Integration-Debugger",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Debug: {\"issue_description\":\"ads not rendering\",\"html_js_snippet\":\"googletag.enableServices();\\ngoogletag.defineSlot('/1234/banner',[728,90],'div-1').addService(googletag.pubads());\",\"console_errors\":\"\"}",
+      "expected_output": "see assertions",
+      "files": [],
+      "assertions": [
+        "root_cause_summary contains enableServices OR out-of-order",
+        "severity == critical",
+        "suggested_code_fix is not empty"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Debug: {\"issue_description\":\"blank slot\",\"html_js_snippet\":\"<div id='div-banner-1'></div>\\ngoogletag.display('div-banner-2');\",\"console_errors\":\"slot not found\"}",
+      "expected_output": "see assertions",
+      "files": [],
+      "assertions": [
+        "root_cause_summary contains ID OR mismatch",
+        "suggested_code_fix contains div-banner-1"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Debug: {\"issue_description\":\"slow load\",\"html_js_snippet\":\"<script src='gpt.js'></script>\",\"console_errors\":\"\"}",
+      "expected_output": "see assertions",
+      "files": [],
+      "assertions": [
+        "root_cause_summary contains async OR synchronous",
+        "suggested_code_fix contains async"
+      ]
+    }
+  ]
+}
